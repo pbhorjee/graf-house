@@ -7,16 +7,10 @@ services:
       - "9000:9000"
       - "9009:9009"
       - "9004:9004"
-  # grafana-storage:
-  #   image: busybox:latest
-  #   volumes:
-  #     - /var/lib/grafana
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
-    # volumes_from:
-    #   - grafana-storage
     environment:
       GF_INSTALL_PLUGINS: "grafana-piechart-panel,vertamedia-clickhouse-datasource"
       GF_SECURITY_ADMIN_USER: "admin"

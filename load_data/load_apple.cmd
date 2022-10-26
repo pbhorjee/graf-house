@@ -1,6 +1,6 @@
 clickhouse-client --host localhost --port 9000 --user default --password --database appStoreData --input_format_allow_errors_num=1000 --date_time_input_format 'best_effort' \
  --query "
- INSERT INTO t_apple_app_store
+ INSERT INTO appStoreData.t_apple_app_store
  SELECT App_Id, App_Name, AppStore_Url, Primary_Genre, Content_Rating, Size_Bytes,
   Required_IOS_Version, Released, Updated, Version, Price, Currency, Free, DeveloperId,
   Average_User_Rating, Developer_Url, Developer_Website, Developer, Reviews,
