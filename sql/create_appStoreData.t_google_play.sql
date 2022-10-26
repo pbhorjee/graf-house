@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS appStoreData.googleAppData;
+DROP TABLE IF EXISTS appStoreData.t_google_play;
 
-CREATE TABLE IF NOT EXISTS appStoreData.googleAppData
+CREATE TABLE IF NOT EXISTS appStoreData.t_google_play
 (
     `App Name`          String  default '',
     `App Id`            String  default '',

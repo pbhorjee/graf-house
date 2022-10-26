@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS appStoreData.appleAppData;
+DROP TABLE IF EXISTS appStoreData.t_apple_app_store;
 
-create table IF NOT EXISTS appStoreData.appleAppData
+create table IF NOT EXISTS appStoreData.t_apple_app_store
 (
     App_Id                  String          default '',
     App_Name                String          default '',
