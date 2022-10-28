@@ -7,7 +7,7 @@ select * from (
              Size_Bytes,
              App_Name,
              App_Id
-      FROM appStoreData.v_released_cat_bytes_app
+      FROM appStoreData.t_released_cat_bytes_app
       GROUP BY Year,
                Category,
                Size_Bytes,
