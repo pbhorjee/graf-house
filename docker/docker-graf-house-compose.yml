@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  clickhouse:
+  clickhouse2:
     image: clickhouse/clickhouse-server
-    container_name: clickhouse
+    container_name: clickhouse2
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -13,14 +13,17 @@ services:
             soft: 262144
             hard: 262144
     volumes:
-      - type: bind
-        source: /home/ubuntu/graf-house/docker/dbfiles
-        target: /var/lib/clickhouse
+      - ./init:/docker-entrypoint-initdb.d/
+      - ./init/config.xml:/etc/clickhouse-server/config.xml 
+    environment:
+      - CLICKHOUSE_DB=appStoreData 
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 
+
   grafana:
     image: grafana/grafana
     container_name: grafana
     depends_on:
-      - clickhouse
+      - clickhouse2
     ports:
       - "3000:3000"
     user: '0'
@@ -30,9 +33,3 @@ services:
       GF_INSTALL_PLUGINS: "grafana-piechart-panel,grafana-clickhouse-datasource"
       GF_SECURITY_ADMIN_USER: "admin"
       GF_SECURITY_ADMIN_PASSWORD: "admin1"
-
-volumes:
-  dbfiles:
-    external: true
-  grafana-storage:
-    # external: true
