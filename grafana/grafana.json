@@ -109,7 +109,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "\nselect distinct Category,\n                avg_rat as `Average Rating` from\n     (SELECT Distinct Category,\n            sum(mul_rat)  OVER (PARTITION BY Category) as sum_mul_ratings_cat,\n             Num_Ratings,\n             Average_Rating * Num_Ratings as mul_rat,\n            sum(Num_Ratings) OVER (PARTITION BY Category) as sum_num_ratings_cat,\n            sum_mul_ratings_cat / sum_num_ratings_cat as avg_rat\n     FROM  appStoreData.v_released_cat_bytes_app);\n",
+            "rawSql": "\nselect distinct Category,\n                avg_rat as `Average Rating` from\n     (SELECT Distinct Category,\n            sum(mul_rat)  OVER (PARTITION BY Category) as sum_mul_ratings_cat,\n             Num_Ratings,\n             Average_Rating * Num_Ratings as mul_rat,\n            sum(Num_Ratings) OVER (PARTITION BY Category) as sum_num_ratings_cat,\n            sum_mul_ratings_cat / sum_num_ratings_cat as avg_rat\n     FROM  appStoreData.t_released_cat_bytes_app);\n",
             "refId": "A"
           }
         ],
@@ -316,7 +316,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "\nselect * from (\n      SELECT toYear(Released) as Year,\n             Category,\n             row_number() OVER (PARTITION BY Year, Category ORDER BY Year ASC, Category ASC, Size_Bytes DESC) as Size_Rank,\n             formatReadableSize(Size_Bytes) as Size,\n             Size_Bytes,\n             App_Name,\n             App_Id\n      FROM appStoreData.v_released_cat_bytes_app\n      GROUP BY Year,\n               Category,\n               Size_Bytes,\n               App_Id,\n               App_Name\n      ORDER BY Year DESC, Size_Bytes DESC)\nwhere Size_Rank <= 10\n  and Year > 1970\n    AND Size_Bytes > 0;\n\n",
+            "rawSql": "\nselect * from (\n      SELECT toYear(Released) as Year,\n             Category,\n             row_number() OVER (PARTITION BY Year, Category ORDER BY Year ASC, Category ASC, Size_Bytes DESC) as Size_Rank,\n             formatReadableSize(Size_Bytes) as Size,\n             Size_Bytes,\n             App_Name,\n             App_Id\n      FROM appStoreData.t_released_cat_bytes_app\n      GROUP BY Year,\n               Category,\n               Size_Bytes,\n               App_Id,\n               App_Name\n      ORDER BY Year DESC, Size_Bytes DESC)\nwhere Size_Rank <= 10\n  and Year > 1970\n    AND Size_Bytes > 0;\n\n",
             "refId": "A"
           }
         ],
@@ -420,7 +420,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.v_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Health'\nORDER BY Released DESC;",
+            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Health'\nORDER BY Released DESC;",
             "refId": "B"
           }
         ],
@@ -498,7 +498,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.v_released_cat_bytes_app\nWHERE Category = 'Health'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Health'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
             "refId": "A"
           }
         ],
@@ -601,7 +601,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.v_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Music'\nORDER BY Released DESC;",
+            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Music'\nORDER BY Released DESC;",
             "refId": "B"
           }
         ],
@@ -679,7 +679,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.v_released_cat_bytes_app\nWHERE Category = 'Music'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Music'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
             "refId": "A"
           }
         ],
@@ -782,7 +782,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released, Category) as `Num Released`\nFROM appStoreData.v_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Games'\nORDER BY Released DESC, Category DESC;",
+            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released, Category) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Games'\nORDER BY Released DESC, Category DESC;",
             "refId": "B"
           }
         ],
@@ -860,7 +860,7 @@
               }
             },
             "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.v_released_cat_bytes_app\nWHERE Category = 'Games'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Games'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
             "refId": "A"
           }
         ],
