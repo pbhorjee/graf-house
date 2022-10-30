@@ -2,7 +2,7 @@ DROP table IF EXISTS appStoreData.t_released_cat_bytes_app;
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_released_cat_bytes_app
 (
-    `Released` DateTime,
+    `Released` DateTime('UTC'),
     `App_Id` String,
     `App_Name` String,
     `Category` String,

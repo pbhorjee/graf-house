@@ -1,914 +1,898 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "target": {
-            "limit": 100,
-            "matchAny": false,
-            "tags": [],
-            "type": "dashboard"
-          },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
           "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 1,
-    "links": [],
-    "liveNow": false,
-    "panels": [
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
         },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "continuous-RdYlGr"
-            },
-            "mappings": [
-              {
-                "options": {
-                  "Games": {
-                    "color": "dark-red",
-                    "index": 0
-                  },
-                  "Health": {
-                    "color": "dark-green",
-                    "index": 1
-                  },
-                  "Music": {
-                    "color": "dark-orange",
-                    "index": 2
-                  }
-                },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 0
-        },
-        "id": 12,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": true
-          },
-          "textMode": "auto"
-        },
-        "pluginVersion": "9.2.1",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "\nselect distinct Category,\n                avg_rat as `Average Rating` from\n     (SELECT Distinct Category,\n            sum(mul_rat)  OVER (PARTITION BY Category) as sum_mul_ratings_cat,\n             Num_Ratings,\n             Average_Rating * Num_Ratings as mul_rat,\n            sum(Num_Ratings) OVER (PARTITION BY Category) as sum_num_ratings_cat,\n            sum_mul_ratings_cat / sum_num_ratings_cat as avg_rat\n     FROM  appStoreData.t_released_cat_bytes_app);\n",
-            "refId": "A"
-          }
-        ],
-        "title": "Average Rating",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "continuous-BlYlRd"
-            },
-            "custom": {
-              "align": "auto",
-              "displayMode": "auto",
-              "filterable": true,
-              "inspect": false,
-              "minWidth": 100
-            },
-            "mappings": [
-              {
-                "options": {
-                  "1": {
-                    "color": "dark-red",
-                    "index": 3
-                  },
-                  "2": {
-                    "color": "dark-orange",
-                    "index": 4
-                  },
-                  "3": {
-                    "color": "dark-purple",
-                    "index": 5
-                  },
-                  "Games": {
-                    "color": "dark-red",
-                    "index": 0
-                  },
-                  "Health": {
-                    "color": "dark-orange",
-                    "index": 1
-                  },
-                  "Music": {
-                    "color": "green",
-                    "index": 2
-                  }
-                },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Size_Rank"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 104
-                },
-                {
-                  "id": "custom.displayMode",
-                  "value": "color-text"
-                },
-                {
-                  "id": "displayName",
-                  "value": "Rank"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Category"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 93
-                },
-                {
-                  "id": "custom.align",
-                  "value": "right"
-                },
-                {
-                  "id": "custom.displayMode",
-                  "value": "color-text"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Size"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 111
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Year"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 71
-                },
-                {
-                  "id": "custom.displayMode",
-                  "value": "color-background"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "App_Name"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 241
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Size_Bytes"
-              },
-              "properties": [
-                {
-                  "id": "custom.displayMode",
-                  "value": "lcd-gauge"
-                },
-                {
-                  "id": "displayName",
-                  "value": "Bytes"
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 0
-        },
-        "id": 6,
-        "options": {
-          "footer": {
-            "enablePagination": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": [
-            {
-              "desc": true,
-              "displayName": "Size_Rank"
-            }
-          ]
-        },
-        "pluginVersion": "9.2.1",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "\nselect * from (\n      SELECT toYear(Released) as Year,\n             Category,\n             row_number() OVER (PARTITION BY Year, Category ORDER BY Year ASC, Category ASC, Size_Bytes DESC) as Size_Rank,\n             formatReadableSize(Size_Bytes) as Size,\n             Size_Bytes,\n             App_Name,\n             App_Id\n      FROM appStoreData.t_released_cat_bytes_app\n      GROUP BY Year,\n               Category,\n               Size_Bytes,\n               App_Id,\n               App_Name\n      ORDER BY Year DESC, Size_Bytes DESC)\nwhere Size_Rank <= 10\n  and Year > 1970\n    AND Size_Bytes > 0;\n\n",
-            "refId": "A"
-          }
-        ],
-        "title": "Largest Apps by Year and Category",
-        "transformations": [],
-        "type": "table"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-orange",
-              "mode": "fixed"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisWidth": -4,
-              "barAlignment": 0,
-              "drawStyle": "points",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 8
-        },
-        "id": 10,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "timezone": [
-            "utc"
-          ],
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "hide": false,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Health'\nORDER BY Released DESC;",
-            "refId": "B"
-          }
-        ],
-        "title": "Number of Health Apps Released by Month",
-        "transformations": [],
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-orange",
-              "mode": "fixed"
-            },
-            "custom": {
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1
-            },
-            "displayName": "Bytes",
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 8
-        },
-        "id": 14,
-        "options": {
-          "bucketOffset": 0,
-          "bucketSize": 2,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Health'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
-            "refId": "A"
-          }
-        ],
-        "title": "Distribution of Size of Health Apps in Bytes",
-        "type": "histogram"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-green",
-              "mode": "fixed"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisWidth": -4,
-              "barAlignment": 0,
-              "drawStyle": "points",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 16
-        },
-        "id": 16,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "timezone": [
-            "utc"
-          ],
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "hide": false,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Music'\nORDER BY Released DESC;",
-            "refId": "B"
-          }
-        ],
-        "title": "Number of Music Apps Released by Month",
-        "transformations": [],
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-green",
-              "mode": "fixed"
-            },
-            "custom": {
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1
-            },
-            "displayName": "Bytes",
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 16
-        },
-        "id": 17,
-        "options": {
-          "bucketOffset": 0,
-          "bucketSize": 2,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Music'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
-            "refId": "A"
-          }
-        ],
-        "title": "Distribution of Size of Music Apps in Bytes",
-        "type": "histogram"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-red",
-              "mode": "fixed"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisWidth": -4,
-              "barAlignment": 0,
-              "drawStyle": "points",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 24
-        },
-        "id": 15,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "timezone": [
-            "utc"
-          ],
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "hide": false,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released, Category) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Games'\nORDER BY Released DESC, Category DESC;",
-            "refId": "B"
-          }
-        ],
-        "title": "Number of Games Released by Month",
-        "transformations": [],
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "grafana-clickhouse-datasource",
-          "uid": "UrwQYGN4z"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "dark-red",
-              "mode": "fixed"
-            },
-            "custom": {
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1
-            },
-            "displayName": "Bytes",
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 24
-        },
-        "id": 18,
-        "options": {
-          "bucketOffset": 0,
-          "bucketSize": 2,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-clickhouse-datasource",
-              "uid": "UrwQYGN4z"
-            },
-            "format": 1,
-            "meta": {
-              "builderOptions": {
-                "fields": [],
-                "limit": 100,
-                "mode": "list"
-              }
-            },
-            "queryType": "sql",
-            "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Games'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
-            "refId": "A"
-          }
-        ],
-        "title": "Distribution of Size of Game Apps in Bytes",
-        "type": "histogram"
+        "type": "dashboard"
       }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "mappings": [
+            {
+              "options": {
+                "Games": {
+                  "color": "dark-red",
+                  "index": 0
+                },
+                "Health": {
+                  "color": "dark-green",
+                  "index": 1
+                },
+                "Music": {
+                  "color": "dark-orange",
+                  "index": 2
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "\nselect distinct Category,\n                avg_rat as `Average Rating` from\n     (SELECT Distinct Category,\n            sum(mul_rat)  OVER (PARTITION BY Category) as sum_mul_ratings_cat,\n             Num_Ratings,\n             Average_Rating * Num_Ratings as mul_rat,\n            sum(Num_Ratings) OVER (PARTITION BY Category) as sum_num_ratings_cat,\n            sum_mul_ratings_cat / sum_num_ratings_cat as avg_rat\n     FROM  appStoreData.t_released_cat_bytes_app);\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Average Rating",
+      "type": "stat"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": true,
+            "inspect": false,
+            "minWidth": 100
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "dark-red",
+                  "index": 3
+                },
+                "2": {
+                  "color": "dark-orange",
+                  "index": 4
+                },
+                "3": {
+                  "color": "dark-purple",
+                  "index": 5
+                },
+                "Games": {
+                  "color": "dark-red",
+                  "index": 0
+                },
+                "Health": {
+                  "color": "dark-orange",
+                  "index": 1
+                },
+                "Music": {
+                  "color": "green",
+                  "index": 2
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Size_Rank"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 104
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-text"
+              },
+              {
+                "id": "displayName",
+                "value": "Rank"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Category"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 93
+              },
+              {
+                "id": "custom.align",
+                "value": "right"
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-text"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Size"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 111
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Year"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 71
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "App_Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 241
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Size_Bytes"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "lcd-gauge"
+              },
+              {
+                "id": "displayName",
+                "value": "Bytes"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "footer": {
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Size_Rank"
+          }
+        ]
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "\nselect * from (\n      SELECT toYear(Released) as Year,\n             Category,\n             row_number() OVER (PARTITION BY Year, Category ORDER BY Year ASC, Category ASC, Size_Bytes DESC) as Size_Rank,\n             formatReadableSize(Size_Bytes) as Size,\n             Size_Bytes,\n             App_Name,\n             App_Id\n      FROM appStoreData.t_released_cat_bytes_app\n      GROUP BY Year,\n               Category,\n               Size_Bytes,\n               App_Id,\n               App_Name\n      ORDER BY Year DESC, Size_Bytes DESC)\nwhere Size_Rank <= 10\n  and Year > 1970\n    AND Size_Bytes > 0;\n\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Largest Apps by Year and Category",
+      "transformations": [],
+      "type": "table"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisWidth": -4,
+            "barAlignment": 0,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "utc"
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "hide": false,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Health'\nORDER BY Released DESC;",
+          "refId": "B"
+        }
+      ],
+      "title": "Number of Health Apps Released by Month",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "displayName": "Bytes",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 14,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 2,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Health'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+          "refId": "A"
+        }
+      ],
+      "title": "Distribution of Size of Health Apps in Bytes",
+      "type": "histogram"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisWidth": -4,
+            "barAlignment": 0,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "utc"
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "hide": false,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Music'\nORDER BY Released DESC;",
+          "refId": "B"
+        }
+      ],
+      "title": "Number of Music Apps Released by Month",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "displayName": "Bytes",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 17,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 2,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Music'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+          "refId": "A"
+        }
+      ],
+      "title": "Distribution of Size of Music Apps in Bytes",
+      "type": "histogram"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisWidth": -4,
+            "barAlignment": 0,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "utc"
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "hide": false,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released, Category) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Games'\nORDER BY Released DESC, Category DESC;",
+          "refId": "B"
+        }
+      ],
+      "title": "Number of Games Released by Month",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "displayName": "Bytes",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 18,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 2,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "UrwQYGN4z"
+          },
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "fields": [],
+              "limit": 100,
+              "mode": "list"
+            }
+          },
+          "queryType": "sql",
+          "rawSql": "SELECT Released,\n       Size_Bytes\nFROM appStoreData.t_released_cat_bytes_app\nWHERE Category = 'Games'\nand Size_Bytes > 0\nand toYear(Released) > 1970\nORDER BY rand()\nLIMIT 1000;",
+          "refId": "A"
+        }
+      ],
+      "title": "Distribution of Size of Game Apps in Bytes",
+      "type": "histogram"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2010-02-01T00:00:00.000Z",
+    "to": "2021-06-01T00:00:00.000Z"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
     ],
-    "refresh": false,
-    "schemaVersion": 37,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
-    },
-    "time": {
-      "from": "now-6h",
-      "to": "now"
-    },
-    "timepicker": {
-      "hidden": false,
-      "refresh_intervals": [
-        "5s",
-        "10s",
-        "30s",
-        "1m",
-        "5m",
-        "15m",
-        "30m",
-        "1h",
-        "2h",
-        "1d"
-      ],
-      "time_options": [
-        "5m",
-        "15m",
-        "1h",
-        "6h",
-        "12h",
-        "24h",
-        "2d",
-        "7d",
-        "30d"
-      ],
-      "type": "timepicker"
-    },
-    "timezone": "utc",
-    "title": "App Stores Data",
-    "uid": "01upgcNVz",
-    "version": 24,
-    "weekStart": ""
-  }
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ],
+    "type": "timepicker"
+  },
+  "timezone": "utc",
+  "title": "App Stores Data",
+  "uid": "01upgcNVz",
+  "version": 6,
+  "weekStart": ""
+}
