@@ -1,0 +1,9 @@
+{
+    "docker-compose.enableTelemetry": false,
+    "docker-compose.files": [
+        "**/docker-graf-house-compose.yml"
+    ],
+    "docker-compose.projectNames": [
+        "graf-house"
+    ]
+}

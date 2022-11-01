@@ -1,3 +1,3 @@
-  drop DATABASE IF EXISTS appStoreData;
+DROP DATABASE IF EXISTS appStoreData;
 
 CREATE DATABASE IF NOT EXISTS appStoreData;

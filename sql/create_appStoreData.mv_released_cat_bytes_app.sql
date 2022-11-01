@@ -1,24 +1,9 @@
 DROP TABLE IF EXISTS appStoreData.mv_released_cat_bytes_app;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS appStoreData.mv_released_cat_bytes_app
-(
-    `Released` DateTime,
-    `App_Id` String,
-    `App_Name` String,
-    `Category` String,
-    `Size_Bytes` Int64,
-    `Average_Rating` Float64,
-    `Num_Ratings` Int64
-)
-ENGINE = MergeTree
-ORDER BY Released
+            (released DateTime, app_id String, app_name String, category String,
+             size_bytes Int64, average_rating Float64, num_ratings Int64) ENGINE = MergeTree ORDER BY Released
 AS
-SELECT `Released`,
-       `App_Id`,
-       `App_Name`,
-       `Category`,
-       `Size_Bytes`,
-       `Average_Rating`,
-       `Num_Ratings`
+SELECT released, app_id, app_name, category, size_bytes, average_rating, num_ratings
 FROM appStoreData.t_released_cat_bytes_app
 ORDER BY Released;

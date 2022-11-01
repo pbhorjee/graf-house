@@ -1,0 +1,23 @@
+{
+    "sqltools.connections": [
+        {
+            "port": 8123,
+            "previewLimit": 50,
+            "driver": "ClickHouse",
+            "name": "ntopng",
+            "server": "ec2-54-197-244-116.compute-1.amazonaws.com",
+            "database": "ntopng",
+            "username": "default"
+        },
+        {
+            "port": 8123,
+            "previewLimit": 50,
+            "driver": "ClickHouse",
+            "name": "appStoreData",
+            "server": "localhost",
+            "username": "default",
+            "readonly": false,
+            "database": "appStoreData"
+        }
+    ]
+}
