@@ -1,4 +1,8 @@
+-- noinspection SqlResolveForFile
+
 DROP TABLE IF EXISTS appStoreData.t_google_play_s3;
+
+-- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
 (

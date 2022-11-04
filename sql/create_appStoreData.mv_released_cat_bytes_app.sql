@@ -1,4 +1,22 @@
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
 DROP TABLE IF EXISTS appStoreData.mv_released_cat_bytes_app;
+
+-- noinspection SqlResolve
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS appStoreData.mv_released_cat_bytes_app
             (released DateTime, app_id String, app_name String, category String,

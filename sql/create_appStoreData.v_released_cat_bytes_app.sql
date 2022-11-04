@@ -1,4 +1,8 @@
+-- noinspection SqlSignatureForFile
+
 DROP TABLE IF EXISTS appStoreData.v_released_cat_bytes_app;
+
+-- noinspection SqlSignature
 
 CREATE VIEW IF NOT EXISTS appStoreData.v_released_cat_bytes_app
             (released DateTime,

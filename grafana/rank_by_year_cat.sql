@@ -1,3 +1,7 @@
+-- noinspection SyntaxErrorForFile
+
+-- noinspection SyntaxError
+
 SELECT *
 FROM (SELECT toYear(Released) AS Year, Category,
              row_number() OVER (PARTITION BY Year, Category ORDER BY YEAR ASC, Category ASC, Size_Bytes DESC) AS Size_Rank,

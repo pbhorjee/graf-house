@@ -1,4 +1,8 @@
+-- noinspection SqlResolveForFile
+
 DROP TABLE IF EXISTS appStoreData.t_apple_app_store_s3;
+
+-- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_apple_app_store_s3
 (

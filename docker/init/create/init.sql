@@ -1,8 +1,22 @@
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlResolveForFile
+
+-- noinspection SqlSignatureForFile
+
+-- noinspection SqlSignatureForFile
+
+-- noinspection SqlSignatureForFile,SyntaxError
+
 DROP DATABASE IF EXISTS appStoreData SYNC;
 
 CREATE DATABASE IF NOT EXISTS appStoreData;
 
 DROP TABLE IF EXISTS appStoreData.t_apple_app_store_s3;
+
+-- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_apple_app_store_s3
 (
@@ -31,6 +45,8 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_apple_app_store_s3
            'gzip') SETTINGS input_format_allow_errors_num = 1000, date_time_input_format = 'best_effort';
 
 DROP TABLE IF EXISTS appStoreData.t_google_play_s3;
+
+-- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
 (
@@ -63,6 +79,8 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
 
 DROP TABLE IF EXISTS appStoreData.t_released_cat_bytes_app;
 
+-- noinspection SqlResolve
+
 CREATE TABLE IF NOT EXISTS appStoreData.t_released_cat_bytes_app
 (
     released       DateTime('UTC'),
@@ -74,6 +92,8 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_released_cat_bytes_app
     num_ratings    Int64
 ) ENGINE = MergeTree ORDER BY Released;
 
+
+-- noinspection SqlSignature
 
 INSERT INTO appStoreData.t_released_cat_bytes_app
 SELECT Released, App_Id, App_Name, Primary_Genre AS Category, Size_Bytes, Average_User_Rating AS Average_Rating,

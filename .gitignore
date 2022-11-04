@@ -80,5 +80,5 @@ Temporary Items
 
 /data
 # /docker/grafana-storage
-/docker/dbfiles]
+/docker/dbfiles
 .idea/
