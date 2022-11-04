@@ -1,6 +1,6 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,macos
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,linux,macos
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,certificates,data,ssh
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,certificates,data,ssh
 
 ### Linux ###
 *~
@@ -50,6 +50,11 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+### SSH ###
+**/.ssh/id_*
+**/.ssh/*_id_*
+**/.ssh/known_hosts
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -69,10 +74,12 @@ Temporary Items
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,macos
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,certificates,data,ssh
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 /data
 # /docker/grafana-storage
 /docker/dbfiles
+.idea/
+.vscode/

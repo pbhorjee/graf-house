@@ -1,26 +1,26 @@
-SELECT toStartOfMonth(Released) as Month_Released,
-       round(Size_Bytes, -4)    as Size_Bytes
+SELECT toStartOfMonth(Released) AS Month_Released,
+       round(Size_Bytes, -4) AS Size_Bytes
 FROM appStoreData.t_released_cat_bytes_app
 WHERE Category = 'Music'
-  and Size_Bytes > 0
-  and toYear(Month_Released) > 1970
+  AND Size_Bytes > 0
+  AND toYear(Month_Released) > 1970
 ORDER BY rand()
 LIMIT 1000;
 
-SELECT toStartOfMonth(Released) as Month_Released,
-       round(Size_Bytes, -4)    as Size_Bytes
+SELECT toStartOfMonth(Released) AS Month_Released,
+       round(Size_Bytes, -4) AS Size_Bytes
 FROM appStoreData.t_released_cat_bytes_app
 WHERE Category = 'Health'
-  and Size_Bytes > 0
-  and toYear(Month_Released) > 1970
+  AND Size_Bytes > 0
+  AND toYear(Month_Released) > 1970
 ORDER BY rand()
 LIMIT 1000;
 
-SELECT toStartOfMonth(Released) as Month_Released,
-       round(Size_Bytes, -4)    as Size_Bytes
+SELECT toStartOfMonth(Released) AS Month_Released,
+        round(Size_Bytes, -6) AS Size_Bytes
 FROM appStoreData.t_released_cat_bytes_app
 WHERE Category = 'Games'
-  and Size_Bytes > 0
-  and toYear(Month_Released) > 1970
-ORDER BY rand()
+  AND Size_Bytes > 0
+  AND toYear(Month_Released) > 1970
+ORDER BY Month_Released
 LIMIT 1000;

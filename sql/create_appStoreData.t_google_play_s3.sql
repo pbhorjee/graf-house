@@ -1,4 +1,8 @@
+-- noinspection SqlResolveForFile
+
 DROP TABLE IF EXISTS appStoreData.t_google_play_s3;
+
+-- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
 (
@@ -26,7 +30,5 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
     `In App Purchases`  Bool,
     `Editors Choice`    Bool,
     `Scraped Time`      String
-)
-ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/Google-Playstore.csv.gz', 'CSVWithNames', 'gzip')
-SETTINGS input_format_allow_errors_num = 1000,
-    date_time_input_format = 'best_effort';
+) ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/Google-Playstore.csv.gz', 'CSVWithNames',
+           'gzip') SETTINGS input_format_allow_errors_num = 1000, date_time_input_format = 'best_effort';
