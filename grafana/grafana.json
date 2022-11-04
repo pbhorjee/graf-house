@@ -91,7 +91,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.2.2",
       "targets": [
         {
           "datasource": {
@@ -296,7 +296,7 @@
           }
         ]
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.2.2",
       "targets": [
         {
           "datasource": {
@@ -321,44 +321,24 @@
       "type": "table"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "INqIcbHVz"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "fixedColor": "dark-orange",
-            "mode": "fixed"
+            "mode": "continuous-BlYlRd"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -4,
-            "barAlignment": 0,
-            "drawStyle": "points",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": true,
+            "inspect": true
           },
+          "decimals": 0,
+          "displayName": "Category",
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -384,20 +364,17 @@
       },
       "id": 10,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "timezone": [
-          "utc"
-        ],
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "showHeader": true
       },
+      "pluginVersion": "9.2.2",
       "targets": [
         {
           "datasource": {
@@ -414,13 +391,13 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released) as `Num Released`\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nand Category = 'Health'\nORDER BY Released DESC;",
+          "rawSql": "\nSELECT distinct toDateTime(toStartOfMonth(Released)) as Released,\n                count(*) OVER (PARTITION BY Released, Category) as `Num Released`,\n                Category\nFROM appStoreData.t_released_cat_bytes_app\nwhere toYear(Released) > 1970\nORDER BY Released DESC;",
           "refId": "B"
         }
       ],
-      "title": "Number of Health Apps Released by Month",
+      "title": "Number of Apps Released by Month",
       "transformations": [],
-      "type": "timeseries"
+      "type": "table"
     },
     {
       "datasource": {},
