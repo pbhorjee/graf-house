@@ -83,3 +83,4 @@ Temporary Items
 /docker/dbfiles
 .idea/
 .vscode/
+docker/grafana-storage/grafana.db
