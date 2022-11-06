@@ -84,3 +84,4 @@ Temporary Items
 .idea/
 .vscode/
 docker/grafana-storage/grafana.db
+default.profraw
