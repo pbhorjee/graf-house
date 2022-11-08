@@ -1,22 +1,37 @@
--- noinspection SqlResolveForFile
-
--- noinspection SqlResolveForFile
-
--- noinspection SqlResolveForFile
-
--- noinspection SqlSignatureForFile
-
--- noinspection SqlSignatureForFile
-
--- noinspection SqlSignatureForFile,SyntaxError
-
-DROP DATABASE IF EXISTS appStoreData SYNC;
+DROP DATABASE IF EXISTS appStoreData;
 
 CREATE DATABASE IF NOT EXISTS appStoreData;
 
-DROP TABLE IF EXISTS appStoreData.t_apple_app_store_s3;
+DROP FUNCTION IF EXISTS BYTE_SIZED;
 
--- noinspection SqlResolve
+CREATE FUNCTION BYTE_SIZED AS(Size) -> 
+    multiIf(
+        notEmpty(extract(Size, '(\d+\.?\d+)(?:M)')),
+            toInt64(toFloat64(extract(Size, '(\d+\.?\d+)(?:M)')) / 0.000001),
+        notEmpty(extract(Size, '(\d+\.?\d+)(?:G)')),
+            toInt64(toFloat64(extract(Size, '(\d+\.?\d+)(?:G)')) / 0.000000001), 
+        0);
+
+DROP FUNCTION IF EXISTS CAT_REPLACE;
+
+CREATE FUNCTION CAT_REPLACE AS(Category) -> 
+    replaceRegexpOne(
+        replaceRegexpOne(
+            replaceRegexpOne(
+                Category, '(Health & Fitness)', 'Health'), '(Music & Audio)', 'Music'),
+            '(Action|Adventure|Arcade|Board|Card|Casino|Casual|Educational|Puzzle|Racing|Music|Role Playing|Simulation|Sports|Strategy|Trivia|Word)',
+        'Games');
+
+DROP FUNCTION IF EXISTS DATETIME_FROM_GOOG_DATE;
+
+CREATE FUNCTION DATETIME_FROM_GOOG_DATE AS(Released) -> 
+    parseDateTimeBestEffortOrZero(
+        concat(
+            splitByNonAlpha(Released)[2], 
+            '-', splitByNonAlpha(Released)[1], 
+            '-', splitByNonAlpha(Released)[3]));
+
+DROP TABLE IF EXISTS appStoreData.t_apple_app_store_s3;
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_apple_app_store_s3
 (
@@ -40,13 +55,12 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_apple_app_store_s3
     Average_User_Rating     Float64,
     Reviews                 Int32,
     Current_Version_Score   Float64,
-    Current_Version_Reviews Int32
-) ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/appleAppData.csv.gz', 'CSVWithNames',
-           'gzip') SETTINGS input_format_allow_errors_num = 1000, date_time_input_format = 'best_effort';
+    Current_Version_Reviews Int32) 
+ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/appleAppData.csv.gz', 'CSVWithNames', 'gzip') 
+SETTINGS input_format_allow_errors_num = 1000, 
+    date_time_input_format = 'best_effort';
 
 DROP TABLE IF EXISTS appStoreData.t_google_play_s3;
-
--- noinspection SqlResolve
 
 CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
 (
@@ -74,46 +88,44 @@ CREATE TABLE IF NOT EXISTS appStoreData.t_google_play_s3
     `In App Purchases`  Bool,
     `Editors Choice`    Bool,
     `Scraped Time`      String
-) ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/Google-Playstore.csv.gz', 'CSVWithNames',
-           'gzip') SETTINGS input_format_allow_errors_num = 1000, date_time_input_format = 'best_effort';
+) ENGINE = S3('https://app-store-data-graf-house.s3.amazonaws.com/Google-Playstore.csv.gz', 'CSVWithNames', 'gzip') 
+SETTINGS input_format_allow_errors_num = 1000, 
+date_time_input_format = 'best_effort';
 
 DROP TABLE IF EXISTS appStoreData.t_released_cat_bytes_app;
 
--- noinspection SqlResolve
-
 CREATE TABLE IF NOT EXISTS appStoreData.t_released_cat_bytes_app
 (
-    released       DateTime('UTC'),
-    app_id         String,
-    app_name       String,
-    category       String,
-    size_bytes     Int64,
-    average_rating Float64,
-    num_ratings    Int64
-) ENGINE = MergeTree ORDER BY Released;
-
-
--- noinspection SqlSignature
+    Released       Datetime('UTC'),
+    App_Id         String,
+    App_Name       String,
+    Category       String,
+    Size_Bytes     Int64,
+    Average_Rating Float64,
+    Num_Ratings    Int64) 
+ENGINE = MergeTree 
+ORDER BY Released;
 
 INSERT INTO appStoreData.t_released_cat_bytes_app
-SELECT Released, App_Id, App_Name, Primary_Genre AS Category, Size_Bytes, Average_User_Rating AS Average_Rating,
-       Reviews AS Num_Ratings
-FROM appStoreData.t_apple_app_store_s3
-WHERE Category IN ('Games', 'Music', 'Health')
-  AND Size_Bytes > 0
-UNION ALL
-SELECT parseDateTimeBestEffortOrZero(concat(splitByNonAlpha(Released)[2], '-', splitByNonAlpha(Released)[1], '-',
-                                            splitByNonAlpha(Released)[3])) AS Released, `App Id` AS App_Id,
-       `App Name` AS App_Name,
-       replaceRegexpOne(
-               replaceRegexpOne(replaceRegexpOne(Category, '(Health & Fitness)', 'Health'), '(Music & Audio)', 'Music'),
-               '(Action|Adventure|Arcade|Board|Card|Casino|Casual|Educational|Puzzle|Racing|Music|Role Playing|Simulation|Sports|Strategy|Trivia|Word)',
-               'Games') AS Category,
-       multiIf(notEmpty(extract(Size, '(\d+\.?\d+)(?:M)')),
-               toInt64(toFloat64(extract(Size, '(\d+\.?\d+)(?:M)')) / 0.000001),
-               notEmpty(extract(Size, '(\d+\.?\d+)(?:G)')),
-               toInt64(toFloat64(extract(Size, '(\d+\.?\d+)(?:G)')) / 0.000000001), 0) AS Size_Bytes,
-       Rating AS Average_Rating, `Rating Count` AS Num_Ratings
-FROM appStoreData.t_google_play_s3
-WHERE Category IN ('Games', 'Music', 'Health') SETTINGS input_format_allow_errors_num = 1000
-    , date_time_input_format = 'best_effort';
+    SELECT Released, 
+        App_Id, 
+        App_Name, 
+        Primary_Genre AS Category, 
+        Size_Bytes, 
+        Average_User_Rating AS Average_Rating,
+        Reviews AS Num_Ratings
+    FROM appStoreData.t_apple_app_store_s3
+    WHERE Category IN ('Games', 'Music', 'Health')
+        AND Size_Bytes > 0
+    UNION ALL
+    SELECT DATETIME_FROM_GOOG_DATE(Released) AS Released, 
+        `App Id` AS App_Id, 
+        `App Name` AS App_Name,
+        CAT_REPLACE(Category) AS Category, 
+        BYTE_SIZED(Size) AS Size_Bytes, 
+        Rating AS Average_Rating,
+        `Rating Count` AS Num_Ratings
+    FROM appStoreData.t_google_play_s3
+    WHERE Category IN ('Games', 'Music', 'Health') 
+SETTINGS input_format_allow_errors_num = 1000, 
+    date_time_input_format = 'best_effort';
